@@ -29,13 +29,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Register user
-  const register = async (username, password) => {
+  const register = async (name, email, password) => {
     setLoading(true);
-    const res = await fetch(`${API_BASE_URL}/users/register`, {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, { // <-- note "/auth/register"
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ name, email, password }), // <-- backend expects these keys
     });
+
     const data = await res.json();
     if (res.ok) {
       localStorage.setItem("recipehubUser", JSON.stringify(data));
@@ -47,13 +48,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Login user
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     setLoading(true);
-    const res = await fetch(`${API_BASE_URL}/users/login`, {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     });
+
     const data = await res.json();
     if (res.ok) {
       localStorage.setItem("recipehubUser", JSON.stringify(data));

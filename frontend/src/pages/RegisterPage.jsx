@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const RegisterPage = ({ switchPage }) => {
+const RegisterPage = () => {
   const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +14,7 @@ const RegisterPage = ({ switchPage }) => {
     setError("");
     try {
       await register(username, password);
-      switchPage("home");
+      navigation("/"); // Redirect to home after registration
     } catch (err) {
       setError(err.message);
     }
@@ -45,7 +47,7 @@ const RegisterPage = ({ switchPage }) => {
       </form>
       <p className="mt-2 text-sm">
         Already have an account?{" "}
-        <button onClick={() => switchPage("login")} className="text-orange-500 underline">
+        <button onClick={() => navigation("/login")} className="text-orange-500 underline">
           Login
         </button>
       </p>
